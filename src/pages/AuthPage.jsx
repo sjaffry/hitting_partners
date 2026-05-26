@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import './AuthPage.css';
 
 const USTA_RATINGS = ['2.5', '3.0', '3.5', '4.0', '4.5', '5.0', '5.5+'];
-const GENDERS = ['Male', 'Female', 'Non-binary / Prefer not to say'];
+const GENDERS = ['Male', 'Female'];
 
 // ── Register ─────────────────────────────────────────────────────────────────
 export function RegisterPage() {

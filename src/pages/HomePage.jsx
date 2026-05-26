@@ -10,7 +10,7 @@ const FEATURES = [
   },
   {
     icon: '⭐',
-    title: 'Match Your Level',
+    title: 'Select Your Level',
     desc: 'Filter by USTA rating so you always play a competitive match.',
   },
   {
@@ -20,7 +20,7 @@ const FEATURES = [
   },
   {
     icon: '✅',
-    title: 'Confirmed in Seconds',
+    title: 'Member Accepts',
     desc: 'Both players receive confirmation and court details right away.',
   },
 ];
@@ -34,12 +34,11 @@ export default function HomePage() {
       <section className="hero">
         <div className="hero-content">
           <h1 className="hero-title">
-            Find Your Perfect<br />
-            <span className="hero-accent">Tennis Hitting Partner</span>
+            <span className="hero-accent">Find a Foothills Hitting Partner</span>
           </h1>
           <p className="hero-subtitle">
-            Post a hitting request, sit back, and let HittingPartners connect
-            you with a compatible player — all via SMS.
+            Post a hitting request and HittingPartner will connect
+            you with a member with a similar skill level.
           </p>
           <div className="hero-cta">
             {user ? (

@@ -34,6 +34,12 @@
   flex-shrink: 0;
 }
 
+.brand-logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
 .brand-icon {
   font-size: 1.5rem;
 }

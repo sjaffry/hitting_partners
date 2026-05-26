@@ -1,5 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import ftscLogo from '../assets/FTSC-logo.jpeg';
 import './Layout.css';
 
 export default function Layout({ children }) {
@@ -23,8 +24,8 @@ export default function Layout({ children }) {
       <header className="header">
         <div className="header-inner">
           <Link to="/" className="brand">
-            <span className="brand-icon">🎾</span>
-            <span className="brand-name">HittingPartners</span>
+            <img src={ftscLogo} alt="FTSC logo" className="brand-logo" />
+            <span className="brand-name">HittingPartner</span>
           </Link>
 
           <nav className="nav">
@@ -60,7 +61,7 @@ export default function Layout({ children }) {
       <main className="main">{children}</main>
 
       <footer className="footer">
-        <p>© {new Date().getFullYear()} HittingPartners — Find your next tennis match</p>
+        <p>© {new Date().getFullYear()} HittingPartner — Find your next tennis match</p>
       </footer>
     </div>
   );

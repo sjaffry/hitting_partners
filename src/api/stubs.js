@@ -4,6 +4,7 @@
 
 const STORAGE_KEY_REQUESTS = 'hp_requests';
 const STORAGE_KEY_USERS = 'hp_users';
+const STORAGE_KEY_SMS_LOG = 'hp_sms_log';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -33,6 +34,24 @@ function saveUsers(users) {
 
 function delay(ms = 600) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Stub SMS sender — logs to console and appends to localStorage SMS log.
+ * Replace with a real POST to /api/sms or a Twilio call in production.
+ * @param {string} to   - recipient phone number
+ * @param {string} body - message text
+ */
+function sendSms(to, body) {
+  const entry = { to, body, sentAt: new Date().toISOString() };
+  console.info('[STUB SMS]', entry);
+  try {
+    const log = JSON.parse(localStorage.getItem(STORAGE_KEY_SMS_LOG) || '[]');
+    log.push(entry);
+    localStorage.setItem(STORAGE_KEY_SMS_LOG, JSON.stringify(log));
+  } catch {
+    // non-fatal
+  }
 }
 
 // ─── User Registration ───────────────────────────────────────────────────────
@@ -147,16 +166,49 @@ export async function acceptHittingRequest(data) {
   if (request.status !== 'open') {
     return { success: false, error: 'This slot has already been taken.' };
   }
-  requests[index] = {
+  const updatedRequest = {
     ...request,
     status: 'accepted',
     acceptedBy: data.responderId,
     acceptedByName: data.responderName,
     acceptedAt: new Date().toISOString(),
   };
+  requests[index] = updatedRequest;
   saveRequests(requests);
 
-  console.info('[STUB] SMS confirmation sent to requester and responder for request', data.requestId);
+  // Look up both players to get their phone numbers
+  const users = getUsers();
+  const requester = users.find((u) => u.id === request.requesterId);
+  const responder = users.find((u) => u.id === data.responderId);
+
+  // Format a human-readable date/time for the SMS
+  const dt = new Date(`${request.date}T${request.time || '00:00'}`);
+  const formattedDateTime = dt.toLocaleString(undefined, {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+  if (requester?.phone) {
+    sendSms(
+      requester.phone,
+      `Your hitting request has been accepted by ${data.responderName}!\n` +
+      `Date & Time: ${formattedDateTime}\n` +
+      `Court: ${request.court || 'TBD'}`,
+    );
+  }
+
+  if (responder?.phone) {
+    sendSms(
+      responder.phone,
+      `You've accepted a hitting session with ${request.requesterName}!\n` +
+      `Date & Time: ${formattedDateTime}\n` +
+      `Court: ${request.court || 'TBD'}`,
+    );
+  }
 
   return { success: true, message: 'You have successfully accepted the hitting request!' };
 }

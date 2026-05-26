@@ -114,7 +114,7 @@ export default function AcceptPage() {
         {/* Details grid */}
         <div className="details-grid">
           <DetailRow icon="📅" label="Date & Time" value={formatDateTime(request.date, request.time)} />
-          {request.court && <DetailRow icon="📍" label="Location" value={request.court} />}
+          {request.court && <DetailRow icon="📍" label="Court" value={request.court} />}
           <DetailRow
             icon="⭐"
             label="Preferred Opponent Rating"

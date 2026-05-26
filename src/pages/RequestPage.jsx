@@ -135,14 +135,14 @@ export default function RequestPage() {
         {/* Court / Location */}
         <div className="form-group">
           <label htmlFor="court" className="form-label">
-            Court / Location
+            Court number
           </label>
           <input
             type="text"
             id="court"
             name="court"
             className="form-input"
-            placeholder="e.g. Riverside Tennis Club, Court 3"
+            placeholder="e.g. Court 3"
             value={form.court}
             onChange={handleChange}
             maxLength={120}
@@ -218,7 +218,7 @@ export default function RequestPage() {
             {loading ? (
               <><span className="spinner" /> Sending SMS…</>
             ) : (
-              '📲 Send Request via SMS'
+              'Send Request'
             )}
           </button>
         </div>
